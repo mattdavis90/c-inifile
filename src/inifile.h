@@ -1,3 +1,6 @@
+#ifndef INIFILE_H
+#define INIFILE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -184,3 +187,5 @@ void delete_all_ini_sections(struct ini_section *sections)
         curr_section = next_section;
     }
 }
+
+#endif
