@@ -83,6 +83,8 @@ struct ini_section *read_ini(char *filename)
         }
     }
 
+    fclose(fp);
+
     while(curr_section->prev_section != NULL)
     {
         curr_section = curr_section->prev_section;
@@ -140,4 +142,45 @@ struct ini_property *get_ini_property(struct ini_section *section, char *key)
     }
 
     return retVal;
+}
+
+void delete_ini_section(struct ini_section *section)
+{
+    struct ini_property *curr_property = section->properties;
+
+    while(curr_property != NULL)
+    {
+        struct ini_property *next_property = curr_property->next_property;
+        
+        free(curr_property);
+
+        curr_property = next_property;
+    }
+
+    if(section->prev_section != NULL)
+    {
+        section->prev_section->next_section = section->next_section;
+    }
+
+    if(section->next_section != NULL)
+    {
+        section->next_section->prev_section = section->prev_section;
+    }
+
+    free(section);
+    section = NULL;
+}
+
+void delete_all_ini_sections(struct ini_section *sections)
+{
+    struct ini_section *curr_section = rewind_ini_section(sections);
+
+    while(curr_section != NULL)
+    {
+        struct ini_section *next_section = curr_section->next_section;
+    
+        delete_ini_section(curr_section);
+
+        curr_section = next_section;
+    }
 }

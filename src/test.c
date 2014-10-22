@@ -71,5 +71,29 @@ int main(int argc, char **argv)
         printf("Found section 4 [FAIL]\n");
     }
 
+    curr_section = get_ini_section(sections, "Section2");
+    delete_ini_section(curr_section);
+
+    curr_section = get_ini_section(sections, "Section2");
+    if(curr_section == NULL)
+    {
+        printf("Couldn't find section 2 [PASS]\n");
+    }
+    else
+    {
+        printf("Found section 2 [FAIL]\n");
+    }
+
+    delete_all_ini_sections(sections);
+
+    if(sections == NULL)
+    {
+        printf("Sections freed successfully [PASS]\n");
+    }
+    else
+    {
+        printf("Sections not free [FAIL]\n");
+    }
+
     return 0;
 }
